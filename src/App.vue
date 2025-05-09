@@ -7,6 +7,9 @@ import { RouterView } from 'vue-router';
 
 <template>
   <RouterView />
+  <div class="test">
+    test scss
+  </div>
 </template>
 
 <style>
@@ -21,7 +24,11 @@ import { RouterView } from 'vue-router';
 </style>
 
 
-<style scoped>
+<style scoped lang="scss">
+.test {
+  color: $priceColor;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
