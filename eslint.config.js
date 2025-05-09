@@ -1,24 +1,25 @@
-import { defineConfig, globalIgnores } from 'eslint/config'
+import { defineConfig } from 'eslint/config'
 import globals from 'globals'
-import js from '@eslint/js'
 import pluginVue from 'eslint-plugin-vue'
 
-export default defineConfig([
-  {
-    name: 'app/files-to-lint',
-    files: ['**/*.{js,mjs,jsx,vue}'],
-  },
-
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
-
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-      },
+export default defineConfig({
+  files: ['**/*.{js,mjs,jsx,vue}'],
+  ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
+  languageOptions: {
+    globals: {
+      ...globals.browser,
     },
   },
+  rules: {
+    'vue/no-v-html': 'off',
+  },
+  plugins: {
+    vue: pluginVue,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/essential',
+  ],
+})
 
-  js.configs.recommended,
-  ...pluginVue.configs['flat/essential'],
-])
+
