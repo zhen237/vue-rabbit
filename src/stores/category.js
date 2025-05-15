@@ -1,16 +1,25 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { getCategoryAPI } from '@/apis/layout';
-export const useCategoryStore = defineStore('category', () => {
-  // 导航列表的数据管理
-  // state导航数据列表
 
+export const useCategoryStore = defineStore('category', () => {
   const categoryList = ref([])
-  // action获取导航数据列表的方法
+  const isLoading = ref(false)
+
   const getCategory = async () => {
-    const res = await getCategoryAPI()
-    console.log(res)
-    categoryList.value = res.result
+    // 如果已经在加载中或已有数据，则不重复请求
+    if (isLoading.value || categoryList.value.length > 0) return
+
+    isLoading.value = true
+    try {
+      const res = await getCategoryAPI()
+      categoryList.value = res.result
+    } catch (error) {
+      console.error('Failed to fetch category data:', error)
+    } finally {
+      isLoading.value = false
+    }
   }
+
   return { categoryList, getCategory }
 })
