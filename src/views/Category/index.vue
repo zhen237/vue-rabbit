@@ -1,37 +1,17 @@
 <script setup>
-import {getTopCategoryAPI} from '@/apis/category'
-import { ref, onMounted} from 'vue'
-import { useRoute } from 'vue-router'
-import { getBannerAPI } from '@/apis/home'
-import GoodsItem from '@/views/Home/components/Goodsitem.vue'
-  const categoryData = ref({})
-  const route = useRoute()
-  const getCategory = async () => {
-    // 如何在setup中获取路由参数 useRoute() -> route 等价于this.$route
-    const res = await getTopCategoryAPI(route.params.id)
-    categoryData.value = res.result
-  }
-  onMounted(()=>getCategory())
-  const bannerList = ref([])
-const getBanner = async () => {
-  console.log('Requesting banner data...')
-  try {
-    const res = await getBannerAPI(
-      {distributionSite:'2'}
-    )
-    console.log('Banner API response:', res)
-    if (res && res.result) {
-      bannerList.value = res.result
-      console.log('Banner list updated:', bannerList.value)
-    } else {
-      console.warn('Banner API returned unexpected data structure:', res)
-    }
-  } catch (error) {
-    console.error('Banner API request failed:', error)
-  }
-}
+// import {getTopCategoryAPI} from '@/apis/category'
+// import { ref, onMounted} from 'vue'
+// import { useRoute } from 'vue-router'
 
-onMounted(() => getBanner())
+import GoodsItem from '@/views/Home/components/Goodsitem.vue'
+// import { onBeforeRouteUpdate } from 'vue-router'
+import { useBanner } from './compsables/useBanner'
+import { useCategory } from './compsables/useCategory'
+const {bannerList}=useBanner()
+const { categoryData } = useCategory()
+
+
+
 
 </script>
 
