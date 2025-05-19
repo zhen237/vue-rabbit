@@ -6,22 +6,17 @@ const hotList = ref([])
 
 
 // HomeHot.vue
-const getHotList = async () => {
+
+  const getHotList = async () => {
   try {
-    const res = await getHotAPI();
-    console.log('响应数据:', res);
-    // 根据实际API返回结构调整，如果返回的是 res.data.result
-    if (res.data && res.data.result) {
-      hotList.value = res.data.result;
-    } else if (res.result) {
-      hotList.value = res.result;
-    } else {
-      console.error('API返回的数据结构不符合预期');
-    }
+    const res = await getHotAPI()
+    hotList.value = res.result
   } catch (err) {
-    console.error('请求失败:', err);
+    console.error('请求失败:', err)
   }
-};
+}
+
+
 onMounted(() => {
   getHotList();
 });

@@ -7,7 +7,7 @@ import App from './App.vue'
 import router from './router'
 import { getCategory } from '@/apis/testAPI'
 import { lazyPlugin } from './directives'
-
+import { componentPlugin } from '@/components'
 getCategory().then((res) => {
   console.log(res)
 })
@@ -19,6 +19,7 @@ app.use(VueLazyload, {
 app.use(createPinia())
 app.use(router)
 app.use(lazyPlugin)
+app.use(componentPlugin)
 app.mount('#app')
 
 
