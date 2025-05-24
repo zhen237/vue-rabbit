@@ -8,6 +8,7 @@ import router from './router'
 import { getCategory } from '@/apis/testAPI'
 import { lazyPlugin } from './directives'
 import { componentPlugin } from '@/components'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 getCategory().then((res) => {
   console.log(res)
 })
@@ -16,7 +17,9 @@ app.use(VueLazyload, {
   loading: '/path-to-loading-image.png', // 可选：加载占位图
   error: '/path-to-error-image.png'      // 可选：错误占位图
 });
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
 app.use(router)
 app.use(lazyPlugin)
 app.use(componentPlugin)
