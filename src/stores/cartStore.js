@@ -47,6 +47,43 @@ const isLogin = computed(() => userStore.userInfo.token)
     cartList.value.splice(idx, 1)
   }
 }
+// 清空购物车
+const clearCart = async () => {
+  if (isLogin.value) {
+    // 调用接口实现清空购物车功能
+    // 这里需要获取所有商品的skuId，然后调用删除接口
+    const ids = cartList.value.map(item => item.skuId)
+    await delCartAPI(ids)
+    updateNewList()
+  } else {
+    // 本地购物车直接清空数组
+    cartList.value = []
+  }
+}
+// 合并本地购物车
+// 合并本地购物车
+const mergeLocalCart = async () => {
+  // 判断是否有本地购物车数据
+  if (cartList.value.length === 0) return
+  
+  // 循环将本地购物车数据添加到服务器
+  const promiseArr = cartList.value.map(item => {
+    return insertCartAPI({
+      skuId: item.skuId,
+      count: item.count
+    })
+  })
+  
+  // 等待所有请求完成
+  await Promise.all(promiseArr)
+  
+  // 更新购物车列表
+  updateNewList()
+  
+  // 清空本地购物车
+  cartList.value = []
+}
+
 
 const cartTotal = computed(() => {
   return cartList.value.reduce((prev, item) => prev + item.count, 0)
@@ -68,6 +105,8 @@ const allCheck = (selected) => {
     cartList.value.forEach(item => item.selected = selected)
   }
 }
+// 合并本地购物车
+
 
 
 
@@ -98,7 +137,9 @@ return {
   isAllChecked,
   selectedCount,
   selectedPrice,
-  updateNewList
+  updateNewList,
+  clearCart,
+  mergeLocalCart,
 }
 },{
   persist: true,

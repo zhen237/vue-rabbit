@@ -1,5 +1,8 @@
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
+import { ElMessageBox, ElMessage } from 'element-plus'
+
+
 const cartStore = useCartStore()
 const cartList = cartStore.cartList
 const singleCheck = (i, selected) => {
@@ -16,6 +19,18 @@ const allCheck = (selected) => {
     cartStore.delCart(i.skuId)
   }
 }
+// 添加清空购物车方法
+const clearCart = () => {
+  ElMessageBox.confirm('确定要清空购物车吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    cartStore.clearCart()
+    ElMessage.success('购物车已清空')
+  }).catch(() => {})
+}
+
 
 
 </script>
@@ -91,7 +106,9 @@ const allCheck = (selected) => {
         <div class="batch">
   共 {{ cartStore.cartTotal }} 件商品，已选择 {{ cartStore.selectedCount }} 件，商品合计：
   <span class="red">¥ {{ cartStore.selectedPrice.toFixed(2) }} </span>
-        </div>
+  <el-button size="small" type="danger" @click="clearCart" :disabled="cartStore.cartTotal === 0">清空购物车</el-button>
+</div>
+
         <div class="total">
           <el-button size="large" type="primary" >下单结算</el-button>
         </div>

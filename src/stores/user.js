@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { loginAPI } from '@/apis/user'
 
+
 export const useUserStore = defineStore('user', () => {
   // 用户信息
   const userInfo = ref({})
@@ -11,6 +12,9 @@ export const useUserStore = defineStore('user', () => {
     const res = await loginAPI({ account, password })
     userInfo.value = res.result
     localStorage.setItem('userInfo', JSON.stringify(res.result))
+     const { useCartStore } = await import('@/stores/cartStore')
+     const cartStore = useCartStore()
+  await cartStore.mergeLocalCart()
     return res
   }
   
