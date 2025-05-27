@@ -5,7 +5,8 @@ import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Category from '@/views/Category/index.vue'
 import SubCategory from '@/views/SubCategory/index.vue'
-import Detail from '@/views/Detail/index.vue'
+
+import CartList from '@/views/CartList/index.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -30,7 +31,12 @@ const router = createRouter({
         },
         {
           path:'detail/:id',
-          component: Detail
+          
+          component: () => import('@/views/Detail/index.vue')
+        },
+        {
+          path: 'cartlist',
+          component: CartList
         }
 
       ]
@@ -38,13 +44,7 @@ const router = createRouter({
     {
       path: '/login',
       component: Login,
-    },
-    {
-      path: '/detail/:id',
-      name: 'detail',
-      component: () => import('@/views/Detail/index.vue')
     }
-
   ],
 scrollBehavior(){
   return {

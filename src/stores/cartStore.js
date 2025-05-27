@@ -2,14 +2,21 @@
 
 import { defineStore } from 'pinia'
 import { ref ,computed} from 'vue'
-
-
+import { useUserStore } from '@/stores/user'
+import { insertCartAPI, delCartAPI, getCartListAPI } from '@/apis/cart'
 export const useCartStore = defineStore('cart', () => {
+const userStore = useUserStore()
+const isLogin = computed(() => userStore.userInfo.token)
   // 1. 定义state - cartList
   const cartList = ref([])
   // 2. 定义action - addCart
-  const addCart = (goods) => {
-    console.log('添加', goods)
+  const addCart = async(goods) => {
+  console.log('添加', goods)
+  if (isLogin.value) {
+    // 登录之后的加入购车逻辑
+    await insertCartAPI({ skuId: goods.skuId, count: goods.count })
+    updateNewList()
+  } else {
     // 添加购物车操作
     // 已添加过 - count + 1
     // 没有添加过 - 直接push
@@ -23,26 +30,76 @@ export const useCartStore = defineStore('cart', () => {
       cartList.value.push(goods)
     }
   }
+}
+
   // 删除购物车中的商品
-const delCart = (skuId) => {
-  // 通过skuId删除购物车商品
-  const index = cartList.value.findIndex((item) => item.skuId === skuId)
-  if (index !== -1) {
-    cartList.value.splice(index, 1)
+  // 删除购物车
+  const delCart = async (skuId) => {
+  if (isLogin.value) {
+    // 调用接口实现接口购物车中的删除功能
+    await delCartAPI([skuId])
+    updateNewList()
+  } else {
+    // 思路：
+    // 1. 找到要删除项的下标值 - splice
+    // 2. 使用数组的过滤方法 - filter
+    const idx = cartList.value.findIndex((item) => skuId === item.skuId)
+    cartList.value.splice(idx, 1)
   }
 }
+
 const cartTotal = computed(() => {
   return cartList.value.reduce((prev, item) => prev + item.count, 0)
 })
+const cartTotalPrice = computed(() => {
+  return cartList.value.reduce((prev, item) => prev + item.count * item.price, 0)
+})
+const singleCheck = (skuId, selected) => {
+  // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
+  const item = cartList.value.find((item) => item.skuId === skuId)
+  if (item) {
+    item.selected = selected
+  }
+}
+
+const allCheck = (selected) => {
+  // 把cartList中的每一项的selected都设置为当前的全选框状态
+  if (cartList.value && cartList.value.length) {
+    cartList.value.forEach(item => item.selected = selected)
+  }
+}
+
+
+
+// 是否全选计算属性
+const isAllChecked = computed(() => cartList.value.length > 0 && cartList.value.every((item) => item.selected))
+
+
+// 3. 已选择数量
+const selectedCount = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count, 0))
+// 4. 已选择商品价钱合计
+const selectedPrice = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count * c.price, 0))
+// 获取最新购物车列表
+const updateNewList = async () => {
+  // 这里应该调用获取购物车列表的API
+  const res = await getCartListAPI()
+  cartList.value = res.result
+}
+
 // 在return中添加delCart方法
 return {
   cartList,
   addCart,
   delCart,
-  cartTotal
+  cartTotal,
+  cartTotalPrice,
+  singleCheck,
+  allCheck,
+  isAllChecked,
+  selectedCount,
+  selectedPrice,
+  updateNewList
 }
-}
-  
-, {
+},{
   persist: true,
 })
