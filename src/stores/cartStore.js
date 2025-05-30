@@ -61,7 +61,6 @@ const clearCart = async () => {
   }
 }
 // 合并本地购物车
-// 合并本地购物车
 const mergeLocalCart = async () => {
   // 判断是否有本地购物车数据
   if (cartList.value.length === 0) return
@@ -79,8 +78,6 @@ const mergeLocalCart = async () => {
   
   // 更新购物车列表
   updateNewList()
-  
-  // 清空本地购物车
   cartList.value = []
 }
 
@@ -105,7 +102,7 @@ const allCheck = (selected) => {
     cartList.value.forEach(item => item.selected = selected)
   }
 }
-// 合并本地购物车
+
 
 
 
