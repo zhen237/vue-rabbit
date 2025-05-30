@@ -24,7 +24,7 @@ const rules = {
   ],
   password: [
     { required: true, message: '密码不能为空' },
-    { min: 6, max: 24, message: '密码长度要求6-14个字符' }
+    { min: 6, max: 24, message: '密码长度要求6-24个字符' }
   ],
   agree: [
     {
@@ -43,8 +43,10 @@ const doLogin = () => {
     // 以valid做为判断条件 如果通过校验才执行登录逻辑
     if (valid) {
       // TODO LOGIN
-      const res= await userStore.getUserInfo({ account, password })
-      console.log(res)
+      const res = await loginAPI({ account, password })
+// 然后将用户信息存储到 store
+await userStore.setUserInfo(res.result)
+
       // 1. 提示用户
       ElMessage({ type: 'success', message: '登录成功' })
       // 2. 跳转首页

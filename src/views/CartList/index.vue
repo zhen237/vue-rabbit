@@ -60,7 +60,7 @@ const clearCart = () => {
               </td>
               <td>
                 <div class="goods">
-                  <RouterLink to="/"><img :src="i.picture" alt="" /></RouterLink>
+                  <RouterLink :to="`/detail/${i.id}`"><img :src="i.picture" alt="" /></RouterLink>
                   <div>
                     <p class="name ellipsis">
                       {{ i.name }}
@@ -72,7 +72,7 @@ const clearCart = () => {
                 <p>&yen;{{ i.price }}</p>
               </td>
               <td class="tc">
-                <el-input-number v-model="i.count" />
+                <el-input-number v-model="i.count" @change="(newCount) => cartStore.updateCount(i.skuId, newCount)" />
               </td>
               <td class="tc">
                 <p class="f16 red">&yen;{{ (i.price * i.count).toFixed(2) }}</p>
@@ -92,13 +92,11 @@ const clearCart = () => {
                 <div class="cart-none">
                   <el-empty description="购物车列表为空">
                     <el-button type="primary" @click="$router.push('/')">随便逛逛</el-button>
-
                   </el-empty>
                 </div>
               </td>
             </tr>
           </tbody>
-
         </table>
       </div>
       <!-- 操作栏 -->

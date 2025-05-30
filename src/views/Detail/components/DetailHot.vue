@@ -11,6 +11,7 @@ const props = defineProps({
 const TITLEMAP = {
   1: '24小时热榜',
   2: '周热榜', 
+  3: '总热榜'
 }
 const title = computed(() => TITLEMAP[props.type])
 

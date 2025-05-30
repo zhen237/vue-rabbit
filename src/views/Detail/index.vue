@@ -31,7 +31,7 @@ const addCart=()=>{
 cartStore.addCart({
   id:goods.value.id,
   name:goods.value.name,
-  picture:goods.value.mainPictures[0],
+  picture: goods.value.mainPictures?.[0] || '',
   skuId:skuObj.skuId,
   price:goods.value.price,
   attrsText:skuObj.specsText,
@@ -55,12 +55,16 @@ ElMessage.warning('请选择规格')
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: `/category/${goods.categories[1].id}` }">{{ goods.categories[1].name }}
-          </el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories[0].id}` }">{{
-            goods.categories[0].name
-          }}
-          </el-breadcrumb-item>
+<el-breadcrumb-item v-if="goods.categories?.length" :to="{ path: `/category/${goods.categories[0].id}` }">
+  {{ goods.categories[0].name }}
+</el-breadcrumb-item>
+<el-breadcrumb-item v-if="goods.categories?.length > 1" :to="{ path: `/category/${goods.categories[1].id}` }">
+  {{ goods.categories[1].name }}
+</el-breadcrumb-item>
+
+
+
+
           <el-breadcrumb-item>{{ goods.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -102,9 +106,9 @@ ElMessage.warning('请选择规格')
               <p class="g-name"> {{ goods.name }} </p>
               <p class="g-desc">{{ goods.desc }} </p>
               <p class="g-price">
-                <span>{{ goods.oldPrice }}</span>
                 <span>{{ goods.price }}</span>
-              </p>
+                <span>{{ goods.oldPrice }}</span>
+</p>
               <div class="g-service">
                 <dl>
                   <dt>促销</dt>
