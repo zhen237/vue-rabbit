@@ -2,18 +2,19 @@
 defineProps({
   goods: {
     type: Object,
-    default: () => { }
+    default: () => ({})
   }
 })
+
 </script>
 
 <template>
-  <RouterLink to="`/detail/${goods.id}`" class="goods-item">
-    <img :src="goods.picture" alt="" />
-    <p class="name ellipsis">{{ goods.name }}</p>
-    <p class="desc ellipsis">{{ goods.desc }}</p>
-    <p class="price">&yen;{{ goods.price }}</p>
-  </RouterLink>
+  <RouterLink :to="goods?.id ? `/detail/${goods.id}` : '#'" class="goods-item">
+  <img :src="goods?.picture || ''" alt="" />
+  <p class="name ellipsis">{{ goods?.name || '' }}</p>
+  <p class="desc ellipsis">{{ goods?.desc || '' }}</p>
+  <p class="price">&yen;{{ goods?.price || 0 }}</p>
+</RouterLink>
 </template>
 
 

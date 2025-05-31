@@ -3,19 +3,19 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/Login/index.vue'
 import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
-import Category from '@/views/Category/index.vue'
 import SubCategory from '@/views/SubCategory/index.vue'
 import Checkout from '@/views/Checkout/index.vue'
 import CartList from '@/views/CartList/index.vue'
 import Pay from '@/views/Pay/index.vue'
 import PayBack from '@/views/Pay/PayBack.vue'
+import Member from '@/views/Member/index.vue'
+import Userinfo from '@/views/Member/components/Userinfo.vue'
+import UserOrder from '@/views/Member/components/UserOrder.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-
     {//一级路由
       path: '/',
-
       component: Layout,
       children: [
         // 二级路由
@@ -25,7 +25,7 @@ const router = createRouter({
         },
         {
           path: 'category/:id',
-          component: Category
+          component:() => import('@/views/Category/index.vue')
         },
         {
           path: 'category/sub/:id',
@@ -51,6 +51,26 @@ const router = createRouter({
           path: 'paycallback', // 注意路径，必须是paycallback
           component: PayBack
         },
+        {
+          path: 'member',
+          component: Member,
+          children: [
+            {
+              path: '',
+              component:Userinfo
+            },
+            {
+              path: 'user',  // 添加 user 路径
+              component:Userinfo
+            },
+            {
+              path: 'order',
+              component: UserOrder
+            }
+          ]
+        }
+
+
 
       ]
     },
@@ -65,5 +85,4 @@ const router = createRouter({
     }
   }
 })
-
 export default router

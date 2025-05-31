@@ -1,8 +1,8 @@
-import request from '@/utils/http'
+import httpInstance from '@/utils/http'
 
 
 export function getTopCategoryAPI (id) {
-  return request({
+  return httpInstance({
     url:'/category',
     params:{
       id
@@ -10,7 +10,7 @@ export function getTopCategoryAPI (id) {
   })
 }
 export const getCategoryFilterAPI = (id) => {
-  return request({
+  return httpInstance({
     url:'/category/sub/filter',
     params:{
       id
@@ -28,7 +28,7 @@ export const getCategoryFilterAPI = (id) => {
  * @return {*}
  */
    export const getSubCategoryAPI = (data) => {
-    return request({
+    return httpInstance({
       url:'/category/goods/temporary',
       method:'POST',
       data

@@ -1,8 +1,8 @@
 
-import request from '@/utils/http'
+import httpInstance from '@/utils/http'
 
 export const getOrderAPI = (id) => {
-  return request({
+  return httpInstance({
     url: `/member/order/${id}`
   })
 }

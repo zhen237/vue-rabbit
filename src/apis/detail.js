@@ -1,8 +1,8 @@
-import request from '@/utils/http'
+import httpInstance from '@/utils/http'
 
 
 export  default function getDetail(id){
-  return request({
+  return httpInstance({
     url: '/goods',
     params: {
       id
@@ -10,7 +10,7 @@ export  default function getDetail(id){
   })
 }
 export const getHotGoodsAPI = ({ id, type, limit = 3 }) => {
-  return request({
+  return httpInstance({
     url:'/goods/hot',
     params:{
       id, 

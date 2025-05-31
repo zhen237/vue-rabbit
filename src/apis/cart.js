@@ -1,7 +1,7 @@
-import request from '@/utils/http'
+import httpInstance from '@/utils/http'
 // 加入购物车
 export const insertCartAPI = ({ skuId, count }) => {
-  return request({
+  return httpInstance({
     url: '/member/cart',
     method: 'POST',
     data: {
@@ -12,7 +12,7 @@ export const insertCartAPI = ({ skuId, count }) => {
 }
 // 删除购物车
 export const delCartAPI = (ids) => {
-  return request({
+  return httpInstance({
     url: '/member/cart',
     method: 'DELETE',
     data: {
@@ -22,7 +22,7 @@ export const delCartAPI = (ids) => {
 }
 // 获取购物车列表
 export const getCartListAPI = () => {
-  return request({
+  return httpInstance({
     url: '/member/cart',
   })
 }

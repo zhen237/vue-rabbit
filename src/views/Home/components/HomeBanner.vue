@@ -4,20 +4,16 @@ import { onMounted, ref } from 'vue'
 
 const bannerList = ref([])
 const getBanner = async () => {
-  console.log('Requesting banner data...')
   try {
     const res = await getBannerAPI()
-    console.log('Banner API response:', res)
     if (res && res.result) {
       bannerList.value = res.result
-      console.log('Banner list updated:', bannerList.value)
-    } else {
-      console.warn('Banner API returned unexpected data structure:', res)
     }
   } catch (error) {
     console.error('Banner API request failed:', error)
   }
 }
+
 
 onMounted(() => getBanner())
 

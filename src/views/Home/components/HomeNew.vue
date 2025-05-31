@@ -1,33 +1,23 @@
 <script setup>
 import HomePanel from './HomePanel.vue'
 import { getNewAPI } from '@/apis/home'
-import { ref, onMounted, onUnmounted } from 'vue'
-import axios from 'axios'
+import { ref, onMounted} from 'vue'
 
-let cancelToken
+
+
 const newList = ref([])
 const getNewList = async () => {
-  // 创建一个新的cancelToken
-  cancelToken = axios.CancelToken.source()
-
   try {
-    const res = await getNewAPI({ cancelToken: cancelToken.token })
+    const res = await getNewAPI()
     newList.value = res.result
   } catch (error) {
-    if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message)
-    } else {
-      console.error('Failed to fetch new list:', error)
-    }
+    console.error('Failed to fetch new list:', error)
   }
 }
 
+
 onMounted(() => getNewList())
-onUnmounted(() => {
-  if (cancelToken) {
-    cancelToken.cancel('Component unmounted, request canceled')
-  }
-})
+
 </script>
 
 

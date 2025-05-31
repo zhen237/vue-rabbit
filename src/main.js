@@ -5,13 +5,9 @@ import { createPinia } from 'pinia'
 import VueLazyload from 'vue-lazyload'
 import App from './App.vue'
 import router from './router'
-import { getCategory } from '@/apis/testAPI'
 import { lazyPlugin } from './directives'
 import { componentPlugin } from '@/components'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-getCategory().then((res) => {
-  console.log(res)
-})
 const app = createApp(App)
 app.use(VueLazyload, {
   loading: '/path-to-loading-image.png', // 可选：加载占位图
