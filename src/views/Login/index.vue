@@ -45,7 +45,7 @@ const doLogin = () => {
       // TODO LOGIN
       const res = await loginAPI({ account, password })
 // 然后将用户信息存储到 store
-await userStore.setUserInfo(res.result)
+await userStore.login(res.result)
 
       // 1. 提示用户
       ElMessage({ type: 'success', message: '登录成功' })

@@ -242,7 +242,6 @@ const submitOrder = () => {
     <div class="addressWrapper">
       <div class="text item" v-for="item in checkInfo.userAddresses" :class="{ active: activeAddress.id === item.id }"
         @click="switchAddress(item)" :key="item.id">
-
         <ul>
           <li><span>收<i />货<i />人：</span>{{ item.receiver }} </li>
           <li><span>联系方式：</span>{{ item.contact }}</li>

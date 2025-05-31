@@ -3,9 +3,10 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getOrderAPI } from '@/apis/pay'
+import {useCountDown} from '@/composables/useCountDown'
 const route = useRoute()
 const router = useRouter()
-const payUrl = ref('')
+const { formatTime, start } = useCountDown()
 const payInfo = ref({})
 // 获取支付信息
 const getPayInfo = async () => {
@@ -19,17 +20,20 @@ const getPayInfo = async () => {
   try {
     const res = await getOrderAPI(orderId)
     payInfo.value = res.result
+    start(30 * 60)
     // 构建支付地址
-    payUrl.value = `https://mock-api.com/pay?orderId=${orderId}&amount=${payInfo.value.payMoney}`
+    
   } catch (error) {
     ElMessage.error('获取订单信息失败')
   }
 }
-
 onMounted(() => {
   getPayInfo()
 })
-
+const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+const backURL = 'http://127.0.0.1:5173/paycallback'
+const redirectUrl = encodeURIComponent(backURL)
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 <template>
   <div class="xtx-pay-page">
@@ -39,7 +43,7 @@ onMounted(() => {
         <span class="icon iconfont icon-queren2"></span>
         <div class="tip">
           <p>订单提交成功！请尽快完成支付。</p>
-          <p>支付还剩 <span>24分30秒</span>, 超时后将取消订单</p>
+          <p>支付还剩 <span>{{formatTime}}</span>, 超时后将取消订单</p>
         </div>
         <div class="amount">
           <span>应付总额：</span>

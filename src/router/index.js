@@ -8,6 +8,7 @@ import SubCategory from '@/views/SubCategory/index.vue'
 import Checkout from '@/views/Checkout/index.vue'
 import CartList from '@/views/CartList/index.vue'
 import Pay from '@/views/Pay/index.vue'
+import PayBack from '@/views/Pay/PayBack.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,7 +32,7 @@ const router = createRouter({
           component: SubCategory
         },
         {
-          path:'detail/:id',
+          path: 'detail/:id',
           component: () => import('@/views/Detail/index.vue')
         },
         {
@@ -43,9 +44,13 @@ const router = createRouter({
           component: Checkout
         },
         {
-          path:'pay',
-          component:Pay
-        }
+          path: 'pay',
+          component: Pay
+        },
+        {
+          path: 'paycallback', // 注意路径，必须是paycallback
+          component: PayBack
+        },
 
       ]
     },
@@ -54,11 +59,11 @@ const router = createRouter({
       component: Login,
     }
   ],
-scrollBehavior(){
-  return {
-    top: 0
-} 
-}
+  scrollBehavior() {
+    return {
+      top: 0
+    }
+  }
 })
 
 export default router
