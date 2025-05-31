@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getUserOrder } from '@/apis/order'
+import { getUserOrderAPI } from '@/apis/order'
 const orderList = ref([])
 const total = ref(0)
 const activeTab = ref('all')
@@ -12,7 +12,7 @@ const params = ref({
 const getOrderList = async () => {
   console.log('请求参数:', params.value)  // 调试用
   try {
-    const res = await getUserOrder(params.value)
+    const res = await getUserOrderAPI(params.value)
     console.log('API 响应:', res)  // 调试用
     orderList.value = res.result.items || []
     total.value = res.result.counts || 0

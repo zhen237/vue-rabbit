@@ -18,7 +18,7 @@ const cartStore = useCartStore()
   </template>
   <template v-else>
     <div class="item" v-for="i in cartStore.cartList" :key="i.skuId">
-      <RouterLink :to="`/detail/${i.id}`">
+      <RouterLink :to="`/detail/${i.goodsId || i.spuId || i.id}`">
         <img :src="i.picture" alt="" />
         <div class="center">
           <p class="name ellipsis-2">
