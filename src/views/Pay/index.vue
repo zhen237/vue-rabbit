@@ -31,7 +31,7 @@ onMounted(() => {
   getPayInfo()
 })
 const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
-const backURL = 'http://127.0.0.1:5173/paycallback'
+const backURL = 'http://127.0.0.1:5173/pay/callback'
 const redirectUrl = encodeURIComponent(backURL)
 const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>

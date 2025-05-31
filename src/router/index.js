@@ -7,7 +7,6 @@ import SubCategory from '@/views/SubCategory/index.vue'
 import Checkout from '@/views/Checkout/index.vue'
 import CartList from '@/views/CartList/index.vue'
 import Pay from '@/views/Pay/index.vue'
-import PayBack from '@/views/Pay/PayBack.vue'
 import Member from '@/views/Member/index.vue'
 import Userinfo from '@/views/Member/components/Userinfo.vue'
 import UserOrder from '@/views/Member/components/UserOrder.vue'
@@ -48,8 +47,8 @@ const router = createRouter({
           component: Pay
         },
         {
-          path: 'paycallback', // 注意路径，必须是paycallback
-          component: PayBack
+          path: '/pay/callback', 
+          component:  () => import('@/views/Pay/PayBack.vue')
         },
         {
           path: 'member',

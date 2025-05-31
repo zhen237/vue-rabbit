@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { getUserOrderAPI } from '@/apis/order'
 const orderList = ref([])
 const total = ref(0)
@@ -8,6 +8,23 @@ const params = ref({
   orderState: 0,
   page: 1,
   pageSize: 2
+})
+// 倒计时相关
+const countdownMap = ref({})
+let timer = null
+
+const startCountdown = () => {
+  if (timer) clearInterval(timer)
+  timer = setInterval(() => {
+    orderList.value.forEach(order => {
+      if (order.orderState === 1 && order.countdown > 0) {
+        order.countdown--
+      }
+    })
+  }, 1000)
+}
+onUnmounted(() => {
+  if (timer) clearInterval(timer)
 })
 const getOrderList = async () => {
   console.log('请求参数:', params.value)  // 调试用
@@ -21,6 +38,8 @@ const getOrderList = async () => {
     orderList.value = []
     total.value = 0
   }
+  await getUserOrderAPI(params.value)
+  startCountdown()
 }
 onMounted(() => getOrderList())
 // tab列表
@@ -45,10 +64,16 @@ const tabTypes = [
     }
     return stateMap[payState]
   }
+  const formatCountdown = (seconds) => {
+    if (!seconds || seconds <= 0) return '已截止'
+    const m = Math.floor(seconds / 60)
+    const s = seconds % 60
+    return `${m.toString().padStart(2, '0')}分${s.toString().padStart(2, '0')}秒`
+  }
 // tab切换
 // tab切换
 const tabChange = (type) => {
-  activeTab.value = type
+  params.value.orderState = type
   // 状态映射 - all 状态应该获取所有订单
   if (type === 'all') {
     // 获取所有订单，设置为 0 表示所有状态
@@ -94,7 +119,7 @@ const pageChange = (page) => {
               <!-- 未付款，倒计时时间还有 -->
               <span class="down-time" v-if="order.orderState === 1">
                 <i class="iconfont icon-down-time"></i>
-                <b>付款截止: {{order.countdown}}</b>
+                <b>付款截止: {{formatCountdown(order.countdown)}}</b>
               </span>
             </div>
             <div class="body">
