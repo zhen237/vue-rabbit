@@ -9,7 +9,7 @@
 
 一个基于 Vue 3 + Vite + Pinia + Element Plus 构建的现代化电商平台
 
-[在线演示](https://vue-rabbit-demo.vercel.app) · [功能介绍](#-功能特性) · [快速开始](#-快速开始) · [技术文档](#-技术栈)
+[项目源码](https://github.com/zhen237/vue-rabbit) · [功能介绍](#-功能特性) · [快速开始](#-快速开始) · [技术文档](#-技术栈)
 
 </div>
 
@@ -190,6 +190,76 @@ npm run preview
 npm run lint
 ```
 
+## 🚀 部署指南
+
+### Vercel 部署 (推荐)
+
+1. **准备部署**
+   ```bash
+   # 确保项目已推送到GitHub
+   git push origin main
+   ```
+
+2. **Vercel部署**
+   - 访问 [Vercel](https://vercel.com)
+   - 使用GitHub账户登录
+   - 点击 "New Project"
+   - 选择你的 `vue-rabbit` 仓库
+   - 配置构建设置：
+     - Framework Preset: `Vite`
+     - Build Command: `npm run build`
+     - Output Directory: `dist`
+   - 点击 "Deploy"
+
+3. **环境变量配置**
+   在Vercel项目设置中添加：
+   ```
+   VITE_API_BASE_URL=https://pcapi-xiaotuxian-front-devtest.itheima.net
+   ```
+
+### Netlify 部署
+
+1. **构建配置**
+   创建 `netlify.toml` 文件：
+   ```toml
+   [build]
+     command = "npm run build"
+     publish = "dist"
+
+   [[redirects]]
+     from = "/*"
+     to = "/index.html"
+     status = 200
+   ```
+
+2. **部署步骤**
+   - 访问 [Netlify](https://netlify.com)
+   - 连接GitHub仓库
+   - 选择 `vue-rabbit` 项目
+   - 自动部署
+
+### GitHub Pages 部署
+
+1. **创建部署脚本**
+   在 `package.json` 中添加：
+   ```json
+   {
+     "scripts": {
+       "deploy": "npm run build && gh-pages -d dist"
+     }
+   }
+   ```
+
+2. **安装gh-pages**
+   ```bash
+   npm install --save-dev gh-pages
+   ```
+
+3. **执行部署**
+   ```bash
+   npm run deploy
+   ```
+
 ## ⚙️ 环境配置
 
 ### 开发环境
@@ -220,6 +290,14 @@ NODE_ENV=production
 ```
 
 ## 📱 功能演示
+
+### 在线演示
+
+> 🚀 **部署状态**: 项目支持多种部署方式，选择适合你的平台：
+
+- **Vercel**: [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/zhen237/vue-rabbit)
+- **Netlify**: [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/zhen237/vue-rabbit)
+- **GitHub Pages**: 自动部署到 `https://zhen237.github.io/vue-rabbit/`
 
 ### 主要页面
 
